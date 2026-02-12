@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Test Bundle</title>
+  </head>
+  <body>
+    <h1>Testing Bundle</h1>
+    <div id="output"></div>
+    <div id="qr"></div>
+
+    <script type="module">
+      const output = document.getElementById('output');
+
+      function log(message) {
+        console.log(message);
+        const p = document.createElement('p');
+        p.textContent = message;
+        output.appendChild(p);
+      }
+
+      try {
+        log('🚀 Starting import...');
+        const module = await import('./dist/bundle.js');
+        log('✅ Module loaded');
+        log('📦 Exports: ' + Object.keys(module).join(', '));
+
+        const { QRGenerator } = module;
+        log('✅ QRGenerator: ' + typeof QRGenerator);
+
+        if (QRGenerator) {
+          log('🎨 Creating QR code...');
+          const qr = new QRGenerator({
+            url: 'https://example.com',
+            size: 200
+          });
+          const canvas = await qr.generate();
+          document.getElementById('qr').appendChild(canvas);
+          log('✅ QR code created successfully!');
+        } else {
+          log('❌ QRGenerator is undefined');
+        }
+      } catch (error) {
+        log('❌ Error: ' + error.message);
+        log('❌ Stack: ' + error.stack);
+      }
+    </script>
+  </body>
+</html>

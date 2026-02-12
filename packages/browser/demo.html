@@ -325,14 +325,27 @@
 
       async function initializeDemo() {
         try {
-          console.log('Loading QRGenerator module...');
-          const { QRGenerator } = await import('./dist/bundle.js');
-          console.log('QRGenerator loaded successfully:', QRGenerator);
+          console.log('🚀 Starting demo initialization...');
+          console.log('🔍 Attempting to import from: ./dist/bundle.js');
+
+          const module = await import('./dist/bundle.js');
+          console.log('📦 Module loaded:', module);
+          console.log('📦 Available exports:', Object.keys(module));
+
+          const { QRGenerator } = module;
+          console.log('✅ QRGenerator extracted:', QRGenerator);
+
+          if (!QRGenerator) {
+            throw new Error('QRGenerator is undefined in module exports');
+          }
 
           // Store QR generators globally for download functions
           window.qrGenerators = {};
 
+          console.log('📝 Starting QR code generation...');
+
           // Example 1: Basic QR Code
+          console.log('Generating QR1...');
           const qr1 = new QRGenerator({
             url: 'https://github.com/Luisma92/qr-styled',
             size: 300,
@@ -341,8 +354,10 @@
           });
           await qr1.appendTo(document.getElementById('qr1'));
           window.qrGenerators.qr1 = qr1;
+          console.log('✅ QR1 completed');
 
           // Example 2: Gradient QR Code
+          console.log('Generating QR2...');
           const qr2 = new QRGenerator({
             url: 'https://www.npmjs.com/package/@qr-styled/browser',
             size: 300,
@@ -530,12 +545,15 @@
 
           console.log('✅ All QR codes generated successfully!');
 
-        // Hide loading message and show the demo grid
-        const loadingMessage = document.getElementById('loading-message');
-        const demoGrid = document.querySelector('.demo-grid');
-        if (loadingMessage) loadingMessage.style.display = 'none';
-        if (demoGrid) demoGrid.style.display = 'grid';
-
+          // Hide loading message and show the demo grid
+          const loadingMessage = document.getElementById('loading-message');
+          const demoGrid = document.querySelector('.demo-grid');
+          if (loadingMessage) loadingMessage.style.display = 'none';
+          if (demoGrid) demoGrid.style.display = 'grid';
+        } catch (error) {
+          console.error('❌ Error during QR generation:', error);
+          throw error;
+        }
       }
 
       // Initialize the demo
