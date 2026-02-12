@@ -47,12 +47,10 @@ export class QRGenerator {
    * Generates QR code and returns the canvas
    */
   async generate(): Promise<Canvas> {
-    const { errorCorrectionLevel, size, padding, margin, foregroundColor } =
+    const { errorCorrectionLevel, size, padding, foregroundColor } =
       this.options;
 
-    // Use margin if specified, fallback to padding for backward compatibility
-    const actualMargin = margin !== undefined ? margin : padding;
-    const qrSize = size - actualMargin * 2;
+    const qrSize = size - padding * 2;
 
     // Get formatted content based on type
     const content = this.getQRContent();

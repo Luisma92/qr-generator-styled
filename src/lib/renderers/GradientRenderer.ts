@@ -52,7 +52,7 @@ export class GradientRenderer {
    * Gets the appropriate fill style (gradient or solid color)
    */
   getFillStyle(): string | CanvasGradient {
-    const { gradient, color } = this.options;
-    return gradient ? this.createGradient() : color;
+    const { gradient, foregroundColor } = this.options;
+    return gradient ? this.createGradient() : foregroundColor;
   }
 }
