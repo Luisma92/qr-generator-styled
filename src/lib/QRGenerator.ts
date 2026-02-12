@@ -5,8 +5,10 @@ import { BackgroundRenderer } from './renderers/BackgroundRenderer.js';
 import { GradientRenderer } from './renderers/GradientRenderer.js';
 import { ModuleRenderer } from './renderers/ModuleRenderer.js';
 import { LogoRenderer } from './renderers/LogoRenderer.js';
+import { SVGRenderer } from './renderers/SVGRenderer.js';
 import { QROptions, DEFAULT_OPTIONS } from './utils/types.js';
 import { validateOptions, normalizeOptions } from './utils/validators.js';
+import { formatQRData } from './utils/formatters.js';
 
 /**
  * QR Code Generator with advanced styling options
@@ -22,20 +24,43 @@ export class QRGenerator {
       options,
       DEFAULT_OPTIONS
     ) as Required<QROptions>;
+
+    // Support deprecated 'color' field with backward compatibility
+    if (options.color && !options.foregroundColor) {
+      this.options.foregroundColor = options.color;
+    }
+
     validateOptions(this.options);
+  }
+
+  /**
+   * Generates QR code content from options
+   */
+  private getQRContent(): string {
+    const { type, url, data } = this.options;
+
+    // Use formatter to handle different data types
+    return formatQRData(type, url, data);
   }
 
   /**
    * Generates QR code and returns the canvas
    */
   async generate(): Promise<Canvas> {
-    const { url, errorCorrectionLevel, size, padding } = this.options;
-    const qrSize = size - padding * 2;
+    const { errorCorrectionLevel, size, padding, margin, foregroundColor } =
+      this.options;
+
+    // Use margin if specified, fallback to padding for backward compatibility
+    const actualMargin = margin !== undefined ? margin : padding;
+    const qrSize = size - actualMargin * 2;
+
+    // Get formatted content based on type
+    const content = this.getQRContent();
 
     // Generate QR data
-    const qrData = await QRCode.create(url, {
+    const qrData = await QRCode.create(content, {
       errorCorrectionLevel
-    });
+    } as any); // margin option not in types but works
 
     const modules = qrData.modules;
     const moduleCount = modules.size;
@@ -54,9 +79,10 @@ export class QRGenerator {
     const gradientRenderer = new GradientRenderer(ctx, this.options);
     const fillStyle = gradientRenderer.getFillStyle();
 
-    // Render QR modules
+    // Render QR modules with eye customization support
     const moduleRenderer = new ModuleRenderer(ctx, modules, {
       ...this.options,
+      color: foregroundColor, // Use new foregroundColor
       moduleCount,
       moduleSize
     });
@@ -103,6 +129,33 @@ export class QRGenerator {
   }
 
   /**
+   * Generates QR code as SVG string
+   */
+  async generateToSVG(): Promise<string> {
+    const { errorCorrectionLevel, size } = this.options;
+
+    // Get formatted content based on type
+    const content = this.getQRContent();
+
+    // Generate QR data
+    const qrData = await QRCode.create(content, {
+      errorCorrectionLevel
+    } as any);
+
+    // Use SVG renderer
+    const svgRenderer = new SVGRenderer(qrData, this.options, size);
+    return svgRenderer.generate();
+  }
+
+  /**
+   * Generates QR code as SVG and saves to file
+   */
+  async generateToSVGFile(outputPath: string): Promise<void> {
+    const svg = await this.generateToSVG();
+    fs.writeFileSync(outputPath, svg, 'utf-8');
+  }
+
+  /**
    * Updates generator options
    */
   updateOptions(options: Partial<QROptions>): void {
@@ -110,6 +163,12 @@ export class QRGenerator {
       { ...this.options, ...options },
       DEFAULT_OPTIONS
     ) as Required<QROptions>;
+
+    // Support deprecated 'color' field
+    if (options.color && !options.foregroundColor) {
+      this.options.foregroundColor = options.color;
+    }
+
     validateOptions(this.options);
   }
 }

@@ -1,5 +1,73 @@
 # Changelog
 
+## [2.0.0] - 2024-02-12
+
+### Major Feature Release 🚀
+
+#### New Features
+
+- **Specialized QR Code Types**:
+  - 📇 vCard contact cards with full contact information
+  - 📶 WiFi network configuration (WPA, WEP, open networks)
+  - 📧 Email with pre-filled subject and body
+  - 💬 SMS with phone number and message
+  - 📍 Geolocation with latitude/longitude
+
+- **SVG Export**:
+  - 📄 Vector format for perfect scalability
+  - `generateToSVG()` and `generateToSVGFile()` methods
+  - Full color and styling support in SVG
+
+- **Eye (Finder Pattern) Customization**:
+  - 👁️ Custom eye colors with `eyeColor` option
+  - 🔷 Custom eye shapes with `eyeRadius` option
+  - Independent styling from main modules
+
+- **Proper QR Margins**:
+  - 📏 Standard `margin` option (4 modules by default)
+  - Replaces confusing `padding` terminology
+  - Maintains backward compatibility
+
+#### API Improvements
+
+- **New Options**:
+  - `type`: QR data type ('url' | 'text' | 'vcard' | 'wifi' | 'email' | 'sms' | 'geo')
+  - `data`: Structured data for specialized types
+  - `foregroundColor`: Replaces deprecated `color`
+  - `margin`: Proper QR quiet zone (4 modules standard)
+  - `logoSize`: Explicit logo size control
+  - `logoBackgroundColor`: Logo background color
+  - `eyeColor`: Custom finder pattern color
+  - `eyeRadius`: Custom finder pattern corner radius
+
+- **Data Formatters**:
+  - `formatVCard()`: Convert contact data to vCard 3.0
+  - `formatWiFi()`: Generate WiFi configuration string
+  - `formatEmail()`: Create mailto URI
+  - `formatSMS()`: Create SMS URI
+  - `formatGeo()`: Create geo URI
+  - `formatQRData()`: Unified formatter for all types
+
+#### Testing
+
+- ✅ 55 comprehensive tests (up from 11)
+- 📝 22 formatter tests
+- 🔍 22 new feature tests
+- ✅ All validation tests updated
+- 100% passing test suite
+
+#### Documentation
+
+- 📚 Complete README update with all new features
+- 💡 New advanced examples showcasing all QR types
+- 📖 API reference with specialized data structures
+- 🔧 Migration guide for deprecated options
+
+#### Breaking Changes
+
+- `color` option deprecated in favor of `foregroundColor` (backward compatible)
+- Error messages updated for better clarity
+
 ## [1.0.0] - 2026-02-12
 
 ### Complete TypeScript Migration

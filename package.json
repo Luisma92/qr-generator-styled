@@ -1,7 +1,7 @@
 {
   "name": "qr-generator-styled",
-  "version": "1.0.0",
-  "description": "A professional QR code generator library with advanced styling options including gradients, rounded modules, and logo support",
+  "version": "2.0.0",
+  "description": "A professional QR code generator library with advanced styling options including gradients, rounded modules, logo support, specialized QR types (vCard, WiFi, Email, SMS, Geo), SVG export, and eye customization",
   "main": "./dist/index.js",
   "type": "module",
   "exports": {
@@ -25,7 +25,8 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "example:basic": "tsx examples/basic.ts",
-    "example:programmatic": "tsx examples/programmatic.ts"
+    "example:programmatic": "tsx examples/programmatic.ts",
+    "example:advanced": "tsx examples/advanced.ts"
   },
   "keywords": [
     "qr",

@@ -11,7 +11,11 @@ A professional Node.js/TypeScript library for generating QR codes with advanced 
 - 🎨 **Customizable Styles**: Solid colors or multi-color gradients
 - 🔷 **Rounded Modules**: Smooth, modern edges with radius control
 - 🖼️ **Logo Support**: Add logos with circular or square backgrounds
-- 📦 **Multiple Output Formats**: File, Buffer, Data URL, or Canvas
+- � **Specialized QR Types**: vCard, WiFi, Email, SMS, Geo location
+- 📄 **SVG Export**: Vector format for perfect scalability
+- 👁️ **Eye Customization**: Custom colors and shapes for finder patterns
+- 📏 **Proper Margins**: Standard QR quiet zone support
+- 📦 **Multiple Output Formats**: PNG, JPEG, SVG, Buffer, Data URL, or Canvas
 - 🛠️ **CLI & API**: Use from command line or programmatically
 - ✅ **Built-in Validation**: Options validated automatically
 - 🎯 **Full TypeScript Support**: Complete type definitions included
@@ -49,20 +53,57 @@ qr-styled --url "https://github.com" --logo ./my-logo.png --out my-qr.png
 ```typescript
 import { QRGenerator, generateQRToFile } from 'qr-generator-styled';
 
-// Option 1: Using QRGenerator class
+// Basic URL QR code
 const generator = new QRGenerator({
   url: 'https://github.com',
   gradient: true,
   gradientColors: '#667eea,#764ba2'
 });
 
-await generator.generateToFile('qr- output.png');
+await generator.generateToFile('qr-output.png');
 
-// Option 2: Using helper function
+// vCard contact QR code
+const vCardGenerator = new QRGenerator({
+  type: 'vcard',
+  data: {
+    firstName: 'John',
+    lastName: 'Doe',
+    phone: '+1234567890',
+    email: 'john@example.com',
+    organization: 'Tech Corp'
+  }
+});
+
+await vCardGenerator.generateToFile('contact-qr.png');
+
+// WiFi QR code
+const wifiGenerator = new QRGenerator({
+  type: 'wifi',
+  data: {
+    ssid: 'MyNetwork',
+    password: 'SecurePassword123',
+    encryption: 'WPA'
+  }
+});
+
+await wifiGenerator.generateToFile('wifi-qr.png');
+
+// SVG export for scalability
+const svgGenerator = new QRGenerator({
+  url: 'https://example.com',
+  foregroundColor: '#2196F3',
+  eyeColor: '#FF5722',
+  eyeRadius: 0.4
+});
+
+const svg = await svgGenerator.generateToSVG();
+await svgGenerator.generateToSVGFile('qr.svg');
+
+// Helper function
 await generateQRToFile(
   {
     url: 'https://github.com',
-    color: '#2d3748'
+    foregroundColor: '#2d3748'
   },
   'qr-output.png'
 );
@@ -72,16 +113,29 @@ await generateQRToFile(
 
 ### Configuration Options
 
-| Option            | Type      | Default      | Description                 |
-| ----------------- | --------- | ------------ | --------------------------- |
-| `url`             | `string`  | **required** | URL or text for the QR code |
-| `size`            | `number`  | `600`        | Canvas size in pixels       |
-| `padding`         | `number`  | `40`         | Padding around QR code      |
-| `color`           | `string`  | `'#000000'`  | QR code color (hex format)  |
-| `rounded`         | `boolean` | `true`       | Use rounded module corners  |
-| `moduleRadius`    | `number`  | `0.35`       | Corner radius (0.0 - 0.5)   |
-| `cornerRadius`    | `number`  | `60`         | Background corner radius    |
-| `backgroundColor` | `string`  | `'#ffffff'`  | Background color            |
+#### Basic Options
+
+| Option            | Type         | Default      | Description                                            |
+| ----------------- | ------------ | ------------ | ------------------------------------------------------ |
+| `url`             | `string`     | _optional_   | URL or text content                                    |
+| `type`            | `QRDataType` | `'text'`     | QR data type (url, text, vcard, wifi, email, sms, geo) |
+| `data`            | `object`     | _optional_   | Structured data for specialized types                  |
+| `size`            | `number`     | `600`        | Canvas size in pixels                                  |
+| `margin`          | `number`     | `4`          | Quiet zone margin (4 modules standard)                 |
+| `padding`         | `number`     | `40`         | Canvas padding in pixels                               |
+| `foregroundColor` | `string`     | `'#000000'`  | QR code color (hex format)                             |
+| `color`           | `string`     | _deprecated_ | Use `foregroundColor` instead                          |
+| `rounded`         | `boolean`    | `true`       | Use rounded module corners                             |
+| `moduleRadius`    | `number`     | `0.35`       | Corner radius (0.0 - 0.5)                              |
+| `cornerRadius`    | `number`     | `60`         | Background corner radius                               |
+| `backgroundColor` | `string`     | `'#ffffff'`  | Background color                                       |
+
+#### Eye Customization
+
+| Option      | Type     | Default | Description                       |
+| ----------- | -------- | ------- | --------------------------------- |
+| `eyeColor`  | `string` | `''`    | Custom eye (finder pattern) color |
+| `eyeRadius` | `number` | `0`     | Eye corner radius (0.0 - 0.5)     |
 
 #### Gradient Options
 
@@ -93,12 +147,91 @@ await generateQRToFile(
 
 #### Logo Options
 
-| Option        | Type                 | Default    | Description                |
-| ------------- | -------------------- | ---------- | -------------------------- |
-| `logo`        | `string`             | `''`       | Logo image path or URL     |
-| `logoPadding` | `number`             | `10`       | Padding around logo        |
-| `logoShape`   | `'circle'\|'square'` | `'circle'` | Logo background shape      |
-| `logoRadius`  | `number`             | `20`       | Corner radius (for square) |
+| Option                | Type                 | Default     | Description                    |
+| --------------------- | -------------------- | ----------- | ------------------------------ |
+| `logo`                | `string`             | `''`        | Logo image path or URL         |
+| `logoSize`            | `number`             | `120`       | Logo size in pixels            |
+| `logoPadding`         | `number`             | `10`        | Padding around logo            |
+| `logoShape`           | `'circle'\|'square'` | `'circle'`  | Logo background shape          |
+| `logoBackgroundColor` | `string`             | `'#ffffff'` | Logo background color          |
+| `logoRadius`          | `number`             | `20`        | Corner radius for square logos |
+
+### Specialized QR Codes
+
+#### vCard (Contact Card)
+
+```typescript
+{
+  type: 'vcard',
+  data: {
+    firstName: 'John',
+    lastName: 'Doe',
+    organization: 'Tech Corp',
+    title: 'CEO',
+    phone: '+1234567890',
+    email: 'john@example.com',
+    url: 'https://example.com',
+    address: '123 Main St',
+    city: 'New York',
+    state: 'NY',
+    zip: '10001',
+    country: 'USA'
+  }
+}
+```
+
+#### WiFi Network
+
+```typescript
+{
+  type: 'wifi',
+  data: {
+    ssid: 'MyNetwork',
+    password: 'SecurePassword123',
+    encryption: 'WPA', // 'WPA' | 'WEP' | 'nopass'
+    hidden: false      // optional
+  }
+}
+```
+
+#### Email
+
+```typescript
+{
+  type: 'email',
+  data: {
+    email: 'contact@example.com',
+    subject: 'Hello',    // optional
+    body: 'Message text' // optional
+  }
+}
+```
+
+#### SMS
+
+```typescript
+{
+  type: 'sms',
+  data: {
+    phone: '+1234567890',
+    message: 'Hello!'  // optional
+  }
+}
+```
+
+#### Geo Location
+
+```typescript
+{
+  type: 'geo',
+  data: {
+    latitude: 40.7128,
+    longitude: -74.0060
+  }
+}
+```
+
+| `logoRadius` | `number` | `20` | Corner radius (for square) |
 
 ### API Reference
 

@@ -16,7 +16,7 @@ describe('validators', () => {
       const options: QROptions = {} as any;
 
       expect(() => validateOptions(options)).toThrow(
-        'URL or text content is required'
+        'URL, text content, or structured data is required'
       );
     });
 
