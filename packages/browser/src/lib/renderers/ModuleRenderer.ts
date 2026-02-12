@@ -95,6 +95,9 @@ export class ModuleRenderer {
     } = this.options;
     const ctx = this.ctx;
 
+    // Save the original fill style
+    const originalFillStyle = ctx.fillStyle;
+
     for (let row = 0; row < moduleCount; row++) {
       for (let col = 0; col < moduleCount; col++) {
         if (this.modules.get(row, col)) {
@@ -107,6 +110,9 @@ export class ModuleRenderer {
           // Use eye-specific color if available
           if (isEye && eyeColor) {
             ctx.fillStyle = eyeColor;
+          } else {
+            // Restore original fill style for non-eye modules
+            ctx.fillStyle = originalFillStyle;
           }
 
           // Use eye-specific radius if available, otherwise use moduleRadius
@@ -234,6 +240,9 @@ export class ModuleRenderer {
     const { moduleCount, moduleSize, padding, eyeColor } = this.options;
     const ctx = this.ctx;
 
+    // Save the original fill style
+    const originalFillStyle = ctx.fillStyle;
+
     for (let row = 0; row < moduleCount; row++) {
       for (let col = 0; col < moduleCount; col++) {
         if (this.modules.get(row, col)) {
@@ -243,6 +252,9 @@ export class ModuleRenderer {
           // Use eye-specific color if this is part of an eye
           if (this.isPartOfEye(row, col) && eyeColor) {
             ctx.fillStyle = eyeColor;
+          } else {
+            // Restore original fill style for non-eye modules
+            ctx.fillStyle = originalFillStyle;
           }
 
           ctx.fillRect(x, y, moduleSize, moduleSize);
