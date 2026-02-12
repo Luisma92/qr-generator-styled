@@ -11,6 +11,8 @@ git commit -m "Add GitHub Pages workflow for browser demo"
 git push origin main
 ```
 
+> **Note**: The demo uses esbuild to bundle all dependencies into a single file (`dist/bundle.js`). This ensures the demo works correctly on GitHub Pages without needing node_modules or external CDN dependencies.
+
 ### 2. Enable GitHub Pages in your repository
 
 1. Go to your repository on GitHub: `https://github.com/Luisma92/qr-styled`
@@ -87,3 +89,35 @@ https://htmlpreview.github.io/?https://github.com/Luisma92/qr-styled/blob/main/p
 ```
 
 ⚠️ **Note**: This option may have issues with ES modules, so GitHub Pages or Netlify are preferable.
+
+---
+
+## Troubleshooting
+
+### QR codes not showing (empty grid)
+
+If the demo page loads but the QR codes don't appear:
+
+1. **Check the browser console** for errors
+2. **Verify the bundle was built**: The workflow should create `dist/bundle.js`
+3. **Check GitHub Actions logs**: Go to Actions tab and verify the workflow completed successfully
+4. **Clear cache**: GitHub Pages may cache old versions. Try hard refresh (Ctrl+Shift+R / Cmd+Shift+R)
+5. **Wait a few minutes**: After deployment, GitHub Pages CDN may take 1-2 minutes to update
+
+### How the bundle works
+
+The demo uses **esbuild** to create a single JavaScript file (`dist/bundle.js`) that includes:
+- All QR generation code
+- The `qrcode` library dependency
+- All utilities and renderers
+
+This approach ensures the demo works on GitHub Pages without needing:
+- ❌ Import maps
+- ❌ node_modules directory
+- ❌ External CDN dependencies
+
+To rebuild the bundle locally:
+```bash
+cd packages/browser
+npm run build:demo
+```
