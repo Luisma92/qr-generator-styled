@@ -30,9 +30,10 @@ coverage/
 *.swn
 .DS_Store
 
-# Generated QR codes (except examples)
+# Generated QR codes (except examples and docs)
 *.png
 !examples/**/*.png
+!docs/images/**/*.png
 
 # Examples output
 examples/output/
