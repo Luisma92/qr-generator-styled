@@ -1,6 +1,6 @@
 {
   "name": "@qr-styled/node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A professional Node.js QR code generator library with advanced styling options including gradients, rounded modules, logo support, specialized QR types (vCard, WiFi, Email, SMS, Geo), SVG export, and eye customization",
   "main": "./dist/index.js",
   "type": "module",
