@@ -136,7 +136,47 @@
       </p>
     </div>
 
-    <div class="demo-grid">
+    <div
+      id="loading-message"
+      style="
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 12px;
+        margin: 20px 0;
+      "
+    >
+      <div
+        style="
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #1a73e8;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        "
+      ></div>
+      <p style="margin-top: 20px; color: #666; font-size: 18px">
+        Loading QR Code Generator...
+      </p>
+      <p style="color: #999; font-size: 14px">
+        Initializing demo, please wait...
+      </p>
+    </div>
+
+    <style>
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+
+    <div class="demo-grid" style="display: none">
       <!-- Example 1: Basic -->
       <div class="demo-card">
         <h3>Basic QR Code</h3>
@@ -274,220 +314,256 @@
     </div>
 
     <script type="module">
-      import { QRGenerator } from './dist/bundle.js';
-      try {
-        // Store QR generators globally for download functions
-        window.qrGenerators = {};
+      // Better error handling with more information
+      window.addEventListener('error', function (event) {
+        console.error('Global error:', event.error);
+      });
 
-        // Example 1: Basic QR Code
-        const qr1 = new QRGenerator({
-          url: 'https://github.com/Luisma92/qr-styled',
-          size: 300,
-          foregroundColor: '#000000',
-          backgroundColor: '#ffffff'
-        });
-        await qr1.appendTo(document.getElementById('qr1'));
-        window.qrGenerators.qr1 = qr1;
+      window.addEventListener('unhandledrejection', function (event) {
+        console.error('Unhandled promise rejection:', event.reason);
+      });
 
-        // Example 2: Gradient QR Code
-        const qr2 = new QRGenerator({
-          url: 'https://www.npmjs.com/package/@qr-styled/browser',
-          size: 300,
-          gradient: true,
-          gradientColors: '#667eea, #764ba2, #f093fb',
-          gradientAngle: 135,
-          rounded: true
-        });
-        await qr2.appendTo(document.getElementById('qr2'));
-        window.qrGenerators.qr2 = qr2;
+      async function initializeDemo() {
+        try {
+          console.log('Loading QRGenerator module...');
+          const { QRGenerator } = await import('./dist/bundle.js');
+          console.log('QRGenerator loaded successfully:', QRGenerator);
 
-        // Example 3: Rounded Modules
-        const qr3 = new QRGenerator({
-          url: 'https://qr-styled.dev',
-          size: 300,
-          foregroundColor: '#2196f3',
-          backgroundColor: '#ffffff',
-          rounded: true,
-          moduleRadius: 0.5,
-          cornerRadius: 20
-        });
-        await qr3.appendTo(document.getElementById('qr3'));
-        window.qrGenerators.qr3 = qr3;
+          // Store QR generators globally for download functions
+          window.qrGenerators = {};
 
-        // Example 4: Custom Eye Color (different from modules)
-        const qr4 = new QRGenerator({
-          url: 'https://example.com/custom-eyes',
-          size: 300,
-          foregroundColor: '#1a1a1a',
-          backgroundColor: '#ffffff',
-          eyeColor: '#e91e63',
-          eyeRadius: 0.5,
-          rounded: true,
-          moduleRadius: 0.4
-        });
-        await qr4.appendTo(document.getElementById('qr4'));
-        window.qrGenerators.qr4 = qr4;
+          // Example 1: Basic QR Code
+          const qr1 = new QRGenerator({
+            url: 'https://github.com/Luisma92/qr-styled',
+            size: 300,
+            foregroundColor: '#000000',
+            backgroundColor: '#ffffff'
+          });
+          await qr1.appendTo(document.getElementById('qr1'));
+          window.qrGenerators.qr1 = qr1;
 
-        // Example 5: Gradient with Colored Eyes + Rounded
-        const qr5 = new QRGenerator({
-          url: 'https://example.com/gradient-eyes',
-          size: 300,
-          gradient: true,
-          gradientColors: '#FF6B6B, #4ECDC4, #45B7D1',
-          gradientAngle: 45,
-          eyeColor: '#2d3436',
-          eyeRadius: 0.5,
-          rounded: true,
-          moduleRadius: 0.45,
-          cornerRadius: 25
-        });
-        await qr5.appendTo(document.getElementById('qr5'));
-        window.qrGenerators.qr5 = qr5;
+          // Example 2: Gradient QR Code
+          const qr2 = new QRGenerator({
+            url: 'https://www.npmjs.com/package/@qr-styled/browser',
+            size: 300,
+            gradient: true,
+            gradientColors: '#667eea, #764ba2, #f093fb',
+            gradientAngle: 135,
+            rounded: true
+          });
+          await qr2.appendTo(document.getElementById('qr2'));
+          window.qrGenerators.qr2 = qr2;
 
-        // Example 6: Logo - Circle Shape
-        const qr6 = new QRGenerator({
-          url: 'https://github.com/Luisma92/qr-styled',
-          size: 300,
-          foregroundColor: '#000000',
-          backgroundColor: '#ffffff',
-          logo: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
-          logoSize: 80,
-          logoShape: 'circle',
-          logoBackgroundColor: '#ffffff',
-          logoPadding: 8,
-          rounded: true
-        });
-        await qr6.appendTo(document.getElementById('qr6'));
-        window.qrGenerators.qr6 = qr6;
+          // Example 3: Rounded Modules
+          const qr3 = new QRGenerator({
+            url: 'https://qr-styled.dev',
+            size: 300,
+            foregroundColor: '#2196f3',
+            backgroundColor: '#ffffff',
+            rounded: true,
+            moduleRadius: 0.5,
+            cornerRadius: 20
+          });
+          await qr3.appendTo(document.getElementById('qr3'));
+          window.qrGenerators.qr3 = qr3;
 
-        // Example 7: Logo - Square Shape
-        const qr7 = new QRGenerator({
-          url: 'https://www.npmjs.com/package/@qr-styled/browser',
-          size: 300,
-          foregroundColor: '#cb3837',
-          backgroundColor: '#ffffff',
-          logo: 'https://static.npmjs.com/58a19602036db1daee0d7863c94673a4.png',
-          logoSize: 70,
-          logoShape: 'square',
-          logoBackgroundColor: '#ffffff',
-          logoRadius: 10,
-          logoPadding: 8,
-          rounded: true,
-          eyeColor: '#cb3837'
-        });
-        await qr7.appendTo(document.getElementById('qr7'));
-        window.qrGenerators.qr7 = qr7;
+          // Example 4: Custom Eye Color (different from modules)
+          const qr4 = new QRGenerator({
+            url: 'https://example.com/custom-eyes',
+            size: 300,
+            foregroundColor: '#1a1a1a',
+            backgroundColor: '#ffffff',
+            eyeColor: '#e91e63',
+            eyeRadius: 0.5,
+            rounded: true,
+            moduleRadius: 0.4
+          });
+          await qr4.appendTo(document.getElementById('qr4'));
+          window.qrGenerators.qr4 = qr4;
 
-        // Example 8: Logo with Gradient
-        const qr8 = new QRGenerator({
-          url: 'https://qr-styled.dev',
-          size: 300,
-          gradient: true,
-          gradientColors: '#8E2DE2, #4A00E0',
-          gradientAngle: 135,
-          logo: 'https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/javascript/javascript.png',
-          logoSize: 75,
-          logoShape: 'circle',
-          logoBackgroundColor: '#000000',
-          logoPadding: 10,
-          rounded: true,
-          eyeColor: '#8E2DE2'
-        });
-        await qr8.appendTo(document.getElementById('qr8'));
-        window.qrGenerators.qr8 = qr8;
+          // Example 5: Gradient with Colored Eyes + Rounded
+          const qr5 = new QRGenerator({
+            url: 'https://example.com/gradient-eyes',
+            size: 300,
+            gradient: true,
+            gradientColors: '#FF6B6B, #4ECDC4, #45B7D1',
+            gradientAngle: 45,
+            eyeColor: '#2d3436',
+            eyeRadius: 0.5,
+            rounded: true,
+            moduleRadius: 0.45,
+            cornerRadius: 25
+          });
+          await qr5.appendTo(document.getElementById('qr5'));
+          window.qrGenerators.qr5 = qr5;
 
-        // Example 9: vCard Contact
-        const qr9 = new QRGenerator({
-          type: 'vcard',
-          data: {
-            firstName: 'John',
-            lastName: 'Doe',
-            organization: 'Tech Company Inc.',
-            phone: '+1-234-567-8900',
-            email: 'john.doe@example.com',
-            url: 'https://johndoe.com'
-          },
-          size: 300,
-          gradient: true,
-          gradientColors: '#11998e, #38ef7d',
-          rounded: true,
-          eyeColor: '#0e7c61',
-          eyeRadius: 0.5
-        });
-        await qr9.appendTo(document.getElementById('qr9'));
-        window.qrGenerators.qr9 = qr9;
+          // Example 6: Logo - Circle Shape
+          const qr6 = new QRGenerator({
+            url: 'https://github.com/Luisma92/qr-styled',
+            size: 300,
+            foregroundColor: '#000000',
+            backgroundColor: '#ffffff',
+            logo: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
+            logoSize: 80,
+            logoShape: 'circle',
+            logoBackgroundColor: '#ffffff',
+            logoPadding: 8,
+            rounded: true
+          });
+          await qr6.appendTo(document.getElementById('qr6'));
+          window.qrGenerators.qr6 = qr6;
 
-        // Example 10: WiFi Configuration
-        const qr10 = new QRGenerator({
-          type: 'wifi',
-          data: {
-            ssid: 'MyWiFiNetwork',
-            password: 'SecurePassword123',
-            encryption: 'WPA'
-          },
-          size: 300,
-          foregroundColor: '#5e35b1',
-          backgroundColor: '#ffffff',
-          rounded: true,
-          moduleRadius: 0.5,
-          cornerRadius: 25,
-          eyeColor: '#311b92',
-          eyeRadius: 0.5
-        });
-        await qr10.appendTo(document.getElementById('qr10'));
-        window.qrGenerators.qr10 = qr10;
+          // Example 7: Logo - Square Shape
+          const qr7 = new QRGenerator({
+            url: 'https://www.npmjs.com/package/@qr-styled/browser',
+            size: 300,
+            foregroundColor: '#cb3837',
+            backgroundColor: '#ffffff',
+            logo: 'https://static.npmjs.com/58a19602036db1daee0d7863c94673a4.png',
+            logoSize: 70,
+            logoShape: 'square',
+            logoBackgroundColor: '#ffffff',
+            logoRadius: 10,
+            logoPadding: 8,
+            rounded: true,
+            eyeColor: '#cb3837'
+          });
+          await qr7.appendTo(document.getElementById('qr7'));
+          window.qrGenerators.qr7 = qr7;
 
-        // Example 11: Email QR Code
-        const qr11 = new QRGenerator({
-          type: 'email',
-          data: {
-            email: 'contact@example.com',
-            subject: 'Hello from QR Code',
-            body: 'Scanned from @qr-styled/browser demo'
-          },
-          size: 300,
-          gradient: true,
-          gradientColors: '#FC466B, #3F5EFB',
-          gradientAngle: 90,
-          rounded: true,
-          eyeColor: '#FC466B',
-          eyeRadius: 0.4
-        });
-        await qr11.appendTo(document.getElementById('qr11'));
-        window.qrGenerators.qr11 = qr11;
+          // Example 8: Logo with Gradient
+          const qr8 = new QRGenerator({
+            url: 'https://qr-styled.dev',
+            size: 300,
+            gradient: true,
+            gradientColors: '#8E2DE2, #4A00E0',
+            gradientAngle: 135,
+            logo: 'https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/javascript/javascript.png',
+            logoSize: 75,
+            logoShape: 'circle',
+            logoBackgroundColor: '#000000',
+            logoPadding: 10,
+            rounded: true,
+            eyeColor: '#8E2DE2'
+          });
+          await qr8.appendTo(document.getElementById('qr8'));
+          window.qrGenerators.qr8 = qr8;
 
-        // Example 12: SMS QR Code
-        const qr12 = new QRGenerator({
-          type: 'sms',
-          data: {
-            phone: '+1234567890',
-            message: 'Check out @qr-styled/browser!'
-          },
-          size: 300,
-          foregroundColor: '#00897b',
-          backgroundColor: '#ffffff',
-          rounded: true,
-          moduleRadius: 0.5,
-          eyeColor: '#004d40',
-          eyeRadius: 0.5,
-          cornerRadius: 30
-        });
-        await qr12.appendTo(document.getElementById('qr12'));
-        window.qrGenerators.qr12 = qr12;
+          // Example 9: vCard Contact
+          const qr9 = new QRGenerator({
+            type: 'vcard',
+            data: {
+              firstName: 'John',
+              lastName: 'Doe',
+              organization: 'Tech Company Inc.',
+              phone: '+1-234-567-8900',
+              email: 'john.doe@example.com',
+              url: 'https://johndoe.com'
+            },
+            size: 300,
+            gradient: true,
+            gradientColors: '#11998e, #38ef7d',
+            rounded: true,
+            eyeColor: '#0e7c61',
+            eyeRadius: 0.5
+          });
+          await qr9.appendTo(document.getElementById('qr9'));
+          window.qrGenerators.qr9 = qr9;
 
-        console.log('✅ All QR codes generated successfully!');
-      } catch (error) {
+          // Example 10: WiFi Configuration
+          const qr10 = new QRGenerator({
+            type: 'wifi',
+            data: {
+              ssid: 'MyWiFiNetwork',
+              password: 'SecurePassword123',
+              encryption: 'WPA'
+            },
+            size: 300,
+            foregroundColor: '#5e35b1',
+            backgroundColor: '#ffffff',
+            rounded: true,
+            moduleRadius: 0.5,
+            cornerRadius: 25,
+            eyeColor: '#311b92',
+            eyeRadius: 0.5
+          });
+          await qr10.appendTo(document.getElementById('qr10'));
+          window.qrGenerators.qr10 = qr10;
+
+          // Example 11: Email QR Code
+          const qr11 = new QRGenerator({
+            type: 'email',
+            data: {
+              email: 'contact@example.com',
+              subject: 'Hello from QR Code',
+              body: 'Scanned from @qr-styled/browser demo'
+            },
+            size: 300,
+            gradient: true,
+            gradientColors: '#FC466B, #3F5EFB',
+            gradientAngle: 90,
+            rounded: true,
+            eyeColor: '#FC466B',
+            eyeRadius: 0.4
+          });
+          await qr11.appendTo(document.getElementById('qr11'));
+          window.qrGenerators.qr11 = qr11;
+
+          // Example 12: SMS QR Code
+          const qr12 = new QRGenerator({
+            type: 'sms',
+            data: {
+              phone: '+1234567890',
+              message: 'Check out @qr-styled/browser!'
+            },
+            size: 300,
+            foregroundColor: '#00897b',
+            backgroundColor: '#ffffff',
+            rounded: true,
+            moduleRadius: 0.5,
+            eyeColor: '#004d40',
+            eyeRadius: 0.5,
+            cornerRadius: 30
+          });
+          await qr12.appendTo(document.getElementById('qr12'));
+          window.qrGenerators.qr12 = qr12;
+
+          console.log('✅ All QR codes generated successfully!');
+
+        // Hide loading message and show the demo grid
+        const loadingMessage = document.getElementById('loading-message');
+        const demoGrid = document.querySelector('.demo-grid');
+        if (loadingMessage) loadingMessage.style.display = 'none';
+        if (demoGrid) demoGrid.style.display = 'grid';
+
+      }
+
+      // Initialize the demo
+      initializeDemo().catch(error => {
         console.error('❌ Error loading demo:', error);
+        const errorMessage =
+          error?.message || error?.toString() || 'Unknown error occurred';
+        const errorStack = error?.stack || 'No stack trace available';
+
         document.body.innerHTML = `
         <div style="padding: 40px; max-width: 800px; margin: 0 auto;">
           <div class="error">
             <h2 style="margin-top: 0;">⚠️ Demo Loading Error</h2>
-            <p><strong>Error:</strong> ${error.message}</p>
-            <p>This demo must be run through a local HTTP server. The browser cannot load ES modules from file:// protocol.</p>
-            <h3>To run this demo:</h3>
+            <p><strong>Error:</strong> ${errorMessage}</p>
+            <details style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 4px;">
+              <summary style="cursor: pointer; font-weight: bold;">Technical Details</summary>
+              <pre style="margin-top: 10px; font-size: 12px; overflow-x: auto;">${errorStack}</pre>
+            </details>
+            <p>Common causes:</p>
+            <ul>
+              <li>The demo bundle may not have been built correctly</li>
+              <li>CORS issues when loading from file:// protocol</li>
+              <li>Browser doesn't support ES modules</li>
+            </ul>
+            <h3>To run this demo locally:</h3>
             <ol>
               <li>In your terminal, navigate to this directory</li>
-              <li>Run: <code style="background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">npm run demo</code></li>
+              <li>Run: <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">npm run demo</code></li>
               <li>Open <strong>http://localhost:3000/demo.html</strong> in your browser</li>
             </ol>
             <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">
@@ -496,7 +572,7 @@
           </div>
         </div>
       `;
-      }
+      });
     </script>
 
     <script>

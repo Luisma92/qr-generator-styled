@@ -107,16 +107,19 @@ If the demo page loads but the QR codes don't appear:
 ### How the bundle works
 
 The demo uses **esbuild** to create a single JavaScript file (`dist/bundle.js`) that includes:
+
 - All QR generation code
 - The `qrcode` library dependency
 - All utilities and renderers
 
 This approach ensures the demo works on GitHub Pages without needing:
+
 - ❌ Import maps
 - ❌ node_modules directory
 - ❌ External CDN dependencies
 
 To rebuild the bundle locally:
+
 ```bash
 cd packages/browser
 npm run build:demo
