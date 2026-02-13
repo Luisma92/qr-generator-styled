@@ -1,6 +1,6 @@
 {
   "name": "@qr-styled/browser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A professional browser QR code generator library with advanced styling options including gradients, rounded modules, logo support, specialized QR types (vCard, WiFi, Email, SMS, Geo), eye customization, and circular eyes",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
