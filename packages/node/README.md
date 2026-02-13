@@ -17,7 +17,7 @@ A powerful Node.js/TypeScript library for generating QR codes with advanced styl
 - 🖼️ **Logo Support**: Add logos with circular or square backgrounds
 - � **Specialized QR Types**: vCard, WiFi, Email, SMS, Geo location
 - 📄 **SVG Export**: Vector format for perfect scalability
-- 👁️ **Eye Customization**: Custom colors and shapes for finder patterns
+- 👁️ **Eye Customization**: Custom colors and shapes (square, rounded, or circular) ✨
 - 📏 **Proper Margins**: Standard QR quiet zone support
 - 📦 **Multiple Output Formats**: PNG, JPEG, SVG, Buffer, Data URL, or Canvas
 - 🛠️ **CLI & API**: Use from command line or programmatically
@@ -138,6 +138,55 @@ A powerful Node.js/TypeScript library for generating QR codes with advanced styl
     </td>
   </tr>
 </table>
+### Circular Eyes ✨ NEW
+
+Experience modern QR codes with perfectly smooth circular finder patterns instead of traditional squares.
+
+<table>
+  <tr>
+    <td align="center" valign="top">
+      <img src="https://raw.githubusercontent.com/Luisma92/qr-styled/main/packages/node/docs/images/circular-eyes-simple.png" width="180" alt="Simple Circular Eyes QR"/>
+      <br/>
+      <b>Simple Circular</b>
+      <br/>
+      <sub>Blue circular eyes with rounded modules</sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="https://raw.githubusercontent.com/Luisma92/qr-styled/main/packages/node/docs/images/circular-eyes-gradient.png" width="180" alt="Gradient Circular Eyes QR"/>
+      <br/>
+      <b>Gradient Circular</b>
+      <br/>
+      <sub>Pink gradient with circular eyes</sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="https://raw.githubusercontent.com/Luisma92/qr-styled/main/packages/node/docs/images/circular-eyes-contrast.png" width="180" alt="High Contrast Circular Eyes QR"/>
+      <br/>
+      <b>High Contrast</b>
+      <br/>
+      <sub>Pink circular eyes on dark modules</sub>
+    </td>
+  </tr>
+</table>
+
+```typescript
+// Simple circular eyes
+const qr = new QRGenerator({
+  url: 'https://example.com',
+  eyeColor: '#1e40af',
+  eyeShape: 'circle', // ✨ NEW: 'square' | 'rounded' | 'circle'
+  rounded: true
+});
+
+// Gradient with circular eyes
+const gradientQR = new QRGenerator({
+  url: 'https://example.com',
+  gradient: true,
+  gradientColors: '#f093fb, #f5576c',
+  eyeColor: '#c2185b',
+  eyeShape: 'circle',
+  rounded: true
+});
+```
 
 > 💡 **Tip**: All examples shown above were generated with this library! Check the [`examples/`](examples/) directory for source code.
 
@@ -252,10 +301,11 @@ await generateQRToFile(
 
 #### Eye Customization
 
-| Option      | Type     | Default | Description                       |
-| ----------- | -------- | ------- | --------------------------------- |
-| `eyeColor`  | `string` | `''`    | Custom eye (finder pattern) color |
-| `eyeRadius` | `number` | `0`     | Eye corner radius (0.0 - 0.5)     |
+| Option      | Type     | Default    | Description                                          |
+| ----------- | -------- | ---------- | ---------------------------------------------------- |
+| `eyeColor`  | `string` | `''`       | Custom eye (finder pattern) color                    |
+| `eyeRadius` | `number` | `0`        | Eye corner radius (0.0 - 0.5)                        |
+| `eyeShape`  | `string` | `'square'` | Eye shape: `'square'`, `'rounded'`, or `'circle'` ✨ |
 
 #### Gradient Options
 
