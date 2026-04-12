@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0] - 2026-04-12
+
+### ✨ Added
+
+- Dual module distribution with ESM and CommonJS outputs
+- Package `exports` now supports both `import` and `require`
+
+### 🔧 Changed
+
+- Build pipeline now generates:
+  - `dist/` for ESM + type definitions
+  - `dist/cjs/` for CommonJS
+- Added post-build step to mark `dist/cjs/` as CommonJS for runtime compatibility
+- Updated package entry points for broader ecosystem compatibility (`main` for CJS, `module` for ESM)
+
 ## [1.0.2] - 2026-02-12
 
 ### 📚 Documentation
@@ -14,6 +29,7 @@
 **BREAKING CHANGE**: Package renamed from `qr-generator-styled` to `@qr-styled/node`
 
 This release marks the transition to a scoped package architecture:
+
 - `@qr-styled/node` - Node.js/backend QR generation (this package)
 - `@qr-styled/browser` - Browser/frontend QR generation (coming soon)
 

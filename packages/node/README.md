@@ -20,6 +20,7 @@ A powerful Node.js/TypeScript library for generating QR codes with advanced styl
 - 👁️ **Eye Customization**: Custom colors and shapes (square, rounded, or circular) ✨
 - 📏 **Proper Margins**: Standard QR quiet zone support
 - 📦 **Multiple Output Formats**: PNG, JPEG, SVG, Buffer, Data URL, or Canvas
+- 🧩 **Dual Module Support**: Works with both ESM (`import`) and CommonJS (`require`)
 - 🛠️ **CLI & API**: Use from command line or programmatically
 - ✅ **Built-in Validation**: Options validated automatically
 - 🎯 **Full TypeScript Support**: Complete type definitions included
@@ -276,6 +277,12 @@ await generateQRToFile(
   },
   'qr-output.png'
 );
+```
+
+CommonJS is also supported:
+
+```javascript
+const { QRGenerator, generateQRToFile } = require('@qr-styled/node');
 ```
 
 ## 📖 Documentation

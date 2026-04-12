@@ -87,7 +87,7 @@ src/
 npm run build
 ```
 
-This compiles TypeScript files from `src/` to `dist/`.
+This compiles TypeScript files from `src/` to `dist/` (ESM + types) and `dist/cjs/` (CommonJS).
 
 ### Testing Changes
 

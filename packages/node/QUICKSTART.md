@@ -47,7 +47,8 @@ npm run example:programmatic
   - `basic.ts`: Basic examples
   - `programmatic.ts`: Advanced programmatic usage
 
-- **`dist/`**: Compiled JavaScript output (generated)
+- **`dist/`**: ESM build output + type definitions (generated)
+- **`dist/cjs/`**: CommonJS build output (generated)
 
 ### Configuration Files
 
@@ -140,7 +141,10 @@ ls -lh test.png
 npm run build
 ```
 
-This compiles all `.ts` files from `src/` to `dist/`.
+This compiles all `.ts` files from `src/` to:
+
+- `dist/` (ESM + `.d.ts`)
+- `dist/cjs/` (CommonJS)
 
 ### Test the Compiled Output
 

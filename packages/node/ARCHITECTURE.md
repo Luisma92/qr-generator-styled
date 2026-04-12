@@ -57,7 +57,8 @@ Full TypeScript implementation with:
 ├── examples/
 │   ├── basic.ts                      # Basic usage examples
 │   └── programmatic.ts               # Advanced API examples
-├── dist/                             # Compiled JavaScript (generated)
+├── dist/                             # ESM build + type definitions (generated)
+│   └── cjs/                          # CommonJS build (generated)
 ├── tsconfig.json                     # TypeScript configuration
 ├── package.json                      # Package metadata
 ├── README.md                         # Main documentation
@@ -294,11 +295,11 @@ E2E Tests:
 ```
 TypeScript Source (src/)
         ↓
-    TypeScript Compiler (tsc)
+ TypeScript Compiler (ESM + CJS builds)
         ↓
-JavaScript + Type Definitions (dist/)
+ESM + types (dist/) and CommonJS (dist/cjs/)
         ↓
-    npm package
+      npm package
 ```
 
 ## Type System
